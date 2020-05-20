@@ -1,6 +1,8 @@
 import re
-pattern = re.compile('[aA]nswer:[ ]*[0-9]+')
-if pattern.match('answer: 123453'):
-    print('Match!')
-else:
-    print('Not Match!')
+rule = '[aA]nswer:[ ]*[0-9]+'
+pattern = re.compile(rule)
+while True:
+    if pattern.match(input('string (pattern: '+rule+'): ')):
+        print('Match!')
+    else:
+        print('Not Match!')

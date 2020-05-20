@@ -16,7 +16,7 @@ def main():
     password = getpass()
 
     call_name = ''
-    pattern = re.compile("call-[0-9]+")
+    pattern = re.compile("call[- ][0-9]+")
 
     base_url = 'https://lms.nthu.edu.tw'
     login_url = base_url + '/sys/lib/ajax/login_submit.php'
