@@ -16,7 +16,7 @@ def main():
     password = getpass()
 
     call_name = ''
-    pattern = re.compile("call [0-9]+")
+    pattern = re.compile("call-[0-9]+")
 
     base_url = 'https://lms.nthu.edu.tw'
     login_url = base_url + '/sys/lib/ajax/login_submit.php'
@@ -52,7 +52,7 @@ def main():
                     print("connection error!")
                     exit(0)
                 if find==False:
-                    print("Cannot find the call with the pattern(\"call [0-9]+\"), retry after 30 secs...")
+                    print("Cannot find the call with the pattern(\"call-[0-9]+\"), retry after 30 secs...")
                     time.sleep(30)
             part_url = tag_tmp.get('href')
             folder_id = part_url.split('=')[-1]
@@ -62,7 +62,7 @@ def main():
                 soup = BeautifulSoup(resp.content, 'lxml')
                 ans = ''
                 try:
-                    ans = soup.findAll('td', text = re.compile('[aA]nswer: [0-9]+'))[0].getText().split(':')[1].strip() #find the answer of call                            
+                    ans = soup.findAll('td', text = re.compile('[aA]nswer:[ ]*[0-9]+'))[0].getText().split(':')[1].strip() #find the answer of call                            
                 #print(ans)
                 except IndexError:
                     print('Answer not found QAQ. Plz upload the answer manually or Restart the program.')
