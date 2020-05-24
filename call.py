@@ -17,6 +17,7 @@ def main():
 
     call_name = ''
     pattern = re.compile("call[- ][0-9]+")
+    timeout = 1
 
     base_url = 'https://lms.nthu.edu.tw'
     login_url = base_url + '/sys/lib/ajax/login_submit.php'
@@ -52,8 +53,8 @@ def main():
                     print("connection error!")
                     exit(0)
                 if find==False:
-                    print("Cannot find the call with the pattern(\"call-[0-9]+\"), retry after 30 secs...")
-                    time.sleep(30)
+                    print("Cannot find the call with the pattern(\"call-[0-9]+\"), retry after "+timeout+" secs...")
+                    time.sleep(timeout)
             part_url = tag_tmp.get('href')
             folder_id = part_url.split('=')[-1]
             #print(folder_id)
@@ -70,7 +71,10 @@ def main():
                 resp = s.get(url=base_url+'/course/doc_insert.php?folderID='+folder_id) #get submit call page
                 if resp.status_code == 200:
                     soup = BeautifulSoup(resp.content, 'lxml')
-                    goto = soup.find('form').get('action')
+                    try :
+                        goto = soup.find('form').get('action')
+                    except AttributeError:
+                        print("You've submitted the answer ^_^ or The deadline is due QAQ.")
                     #print(goto)
                     input_list = soup.findAll('input')
                     form_data = {}
@@ -79,7 +83,6 @@ def main():
                             form_data[ipt.get('name')] = ipt.get('value')
                     form_data['fmTitle'] = call_name
                     form_data['fmNote'] = ans
-                    #form_data['iwe_btnSubmitfmNoteEditor'] = 'SUBMIT'
                     #print(form_data)
                     me = MultipartEncoder(fields=form_data)
                     headers = {
