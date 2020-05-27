@@ -53,7 +53,7 @@ def main():
                     print("connection error!")
                     exit(0)
                 if find==False:
-                    print("Cannot find the call with the pattern(\"call-[0-9]+\"), retry after "+timeout+" secs...")
+                    print("Cannot find the call with the pattern(\"call[- ][0-9]+\"), retry after "+str(timeout)+" secs...")
                     time.sleep(timeout)
             part_url = tag_tmp.get('href')
             folder_id = part_url.split('=')[-1]
